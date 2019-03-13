@@ -4,7 +4,7 @@
 
 This project is an example project for Multi Tenancy with Spring Boot:
 
-* https://bytefish.de/blog/spring_boot_multitenancy/
+
 
 
 ### Example ###
