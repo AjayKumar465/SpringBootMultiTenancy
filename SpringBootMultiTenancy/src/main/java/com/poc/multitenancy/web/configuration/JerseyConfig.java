@@ -1,13 +1,14 @@
 // Copyright (c) Philipp Wagner. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-package de.bytefish.multitenancy.web.configuration;
+package com.poc.multitenancy.web.configuration;
 
 
-import de.bytefish.multitenancy.web.filters.TenantNameFilter;
-import de.bytefish.multitenancy.web.resources.CustomerResource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
+
+import com.poc.multitenancy.web.filters.TenantNameFilter;
+import com.poc.multitenancy.web.resources.CustomerResource;
 
 /**
  * Jersey Configuration (Resources, Modules, Filters, ...)

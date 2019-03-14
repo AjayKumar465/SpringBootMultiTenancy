@@ -1,10 +1,11 @@
 // Copyright (c) Philipp Wagner. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-package de.bytefish.multitenancy.routing;
+package com.poc.multitenancy.routing;
 
-import de.bytefish.multitenancy.core.ThreadLocalStorage;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+
+import com.poc.multitenancy.core.ThreadLocalStorage;
 
 public class TenantAwareRoutingSource extends AbstractRoutingDataSource {
 

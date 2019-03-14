@@ -1,14 +1,15 @@
 // Copyright (c) Philipp Wagner. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-package de.bytefish.multitenancy.web.resources;
+package com.poc.multitenancy.web.resources;
 
-import de.bytefish.multitenancy.model.Customer;
-import de.bytefish.multitenancy.repositories.ICustomerRepository;
-import de.bytefish.multitenancy.web.converter.Converters;
-import de.bytefish.multitenancy.web.model.CustomerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.poc.multitenancy.model.Customer;
+import com.poc.multitenancy.repositories.ICustomerRepository;
+import com.poc.multitenancy.web.converter.Converters;
+import com.poc.multitenancy.web.model.CustomerDto;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;

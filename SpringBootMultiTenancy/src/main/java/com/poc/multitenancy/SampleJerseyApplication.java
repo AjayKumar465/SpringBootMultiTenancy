@@ -1,7 +1,12 @@
-package de.bytefish.multitenancy;
+package com.poc.multitenancy;
 
-import com.zaxxer.hikari.HikariDataSource;
-import de.bytefish.multitenancy.routing.TenantAwareRoutingSource;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -9,10 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import com.poc.multitenancy.core.ThreadLocalStorage;
+import com.poc.multitenancy.routing.TenantAwareRoutingSource;
 
 @SpringBootApplication
 @EnableTransactionManagement
@@ -39,36 +42,35 @@ public class SampleJerseyApplication extends SpringBootServletInitializer {
 		dataSource.setTargetDataSources(targetDataSources);
 
 		dataSource.afterPropertiesSet();
-
+		ThreadLocalStorage.setTenantName("TenantTwo");
 		return dataSource;
 	}
 
 	public DataSource tenantOne() {
 
-		HikariDataSource dataSource = new HikariDataSource();
 
-		dataSource.setInitializationFailTimeout(0);
-		dataSource.setMaximumPoolSize(5);
-		dataSource.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
-		dataSource.addDataSourceProperty("url", "jdbc:postgresql://127.0.0.1:5432/sampledb");
-		dataSource.addDataSourceProperty("user", "philipp");
-		dataSource.addDataSourceProperty("password", "test_pwd");
+		BasicDataSource basicDataSource = new BasicDataSource();
+		basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		basicDataSource.setUrl("jdbc:mysql://pushlive-dev-env.crrslh60fv0r.us-west-1.rds.amazonaws.com:3306/TenantOne");
+		basicDataSource.setUsername("pushlivedev");
+		basicDataSource.setPassword("pushlivedev");
+		// Below field required for jtds in MS SQL database
 
-		return dataSource;
+
+		return basicDataSource;
 	}
 
 	public DataSource tenantTwo() {
 
-		HikariDataSource dataSource = new HikariDataSource();
+		BasicDataSource basicDataSource = new BasicDataSource();
+		basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		basicDataSource.setUrl("jdbc:mysql://pushlive-dev-env.crrslh60fv0r.us-west-1.rds.amazonaws.com:3306/TenantTwo");
+		basicDataSource.setUsername("pushlivedev");
+		basicDataSource.setPassword("pushlivedev");
+		// Below field required for jtds in MS SQL database
 
-		dataSource.setInitializationFailTimeout(0);
-		dataSource.setMaximumPoolSize(5);
-		dataSource.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
-		dataSource.addDataSourceProperty("url", "jdbc:postgresql://127.0.0.1:5432/sampledb2");
-		dataSource.addDataSourceProperty("user", "philipp");
-		dataSource.addDataSourceProperty("password", "test_pwd");
 
-		return dataSource;
+		return basicDataSource;
 	}
 
 	private static Properties getDefaultProperties() {
@@ -81,9 +83,10 @@ public class SampleJerseyApplication extends SpringBootServletInitializer {
 		defaultProperties.put("spring.datasource.initialize", "false");
 
 		// Prevent JPA from trying to Auto Detect the Database:
-		defaultProperties.put("spring.jpa.database", "postgresql");
+	//	defaultProperties.put("spring.jpa.database", "postgresql");
 
 		// Prevent Hibernate from Automatic Changes to the DDL Schema:
+		defaultProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
 		defaultProperties.put("spring.jpa.hibernate.ddl-auto", "none");
 
 		return defaultProperties;

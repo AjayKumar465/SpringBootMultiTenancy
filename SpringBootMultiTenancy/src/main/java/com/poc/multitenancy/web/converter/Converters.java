@@ -1,10 +1,10 @@
 // Copyright (c) Philipp Wagner. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-package de.bytefish.multitenancy.web.converter;
+package com.poc.multitenancy.web.converter;
 
-import de.bytefish.multitenancy.model.Customer;
-import de.bytefish.multitenancy.web.model.CustomerDto;
+import com.poc.multitenancy.model.Customer;
+import com.poc.multitenancy.web.model.CustomerDto;
 
 public class Converters {
 
